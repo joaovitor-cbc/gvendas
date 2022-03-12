@@ -1,4 +1,4 @@
-package com.gvendas.gestaovendas.services.exceptions;
+package com.gvendas.gestaovendas.services.exception;
 
 public class CategoriaNaoEncontrada extends RuntimeException{
 

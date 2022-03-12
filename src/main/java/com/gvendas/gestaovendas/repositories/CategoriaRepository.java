@@ -1,5 +1,5 @@
 
-package com.gvendas.gestaovendas.repositorys;
+package com.gvendas.gestaovendas.repositories;
 
 import com.gvendas.gestaovendas.models.Categoria;
 import org.springframework.data.jpa.repository.JpaRepository;

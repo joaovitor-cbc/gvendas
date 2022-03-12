@@ -1,13 +1,11 @@
 package com.gvendas.gestaovendas.services;
 
 import com.gvendas.gestaovendas.models.Categoria;
-import com.gvendas.gestaovendas.repositorys.CategoriaRepository;
-import com.gvendas.gestaovendas.services.exceptions.CategoriaNaoEncontrada;
+import com.gvendas.gestaovendas.repositories.CategoriaRepository;
+import com.gvendas.gestaovendas.services.exception.CategoriaNaoEncontrada;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
-package com.gvendas.gestaovendas.resources.exceptions;
+package com.gvendas.gestaovendas.resources.exception;
 
-import com.gvendas.gestaovendas.services.exceptions.CategoriaNaoEncontrada;
+import com.gvendas.gestaovendas.services.exception.CategoriaNaoEncontrada;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;

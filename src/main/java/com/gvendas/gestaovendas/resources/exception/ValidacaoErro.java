@@ -1,4 +1,4 @@
-package com.gvendas.gestaovendas.resources.exceptions;
+package com.gvendas.gestaovendas.resources.exception;
 
 import java.util.ArrayList;
 import java.util.List;
