@@ -3,6 +3,7 @@ package com.gvendas.gestaovendas.dtos;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -15,7 +16,7 @@ public class ProdutoInsertDTO implements Serializable {
     private String descricao;
 
     @NotNull(message = "A quantidade não pode ser nulo.")
-    @Length(min = 2, message = "O minimo de caracteres permitido é 1")
+    @Min(value = 2, message = "O minimo de caracteres permitido é 1")
     private Integer quantidade;
 
     @NotNull(message = "O preco custo não pode ser nulo.")
