@@ -1,6 +1,7 @@
 package com.gvendas.gestaovendas.resources;
 
-import com.gvendas.gestaovendas.models.Produto;
+import com.gvendas.gestaovendas.dtos.ProdutoInsertDTO;
+import com.gvendas.gestaovendas.dtos.ProdutoModelDTO;
 import com.gvendas.gestaovendas.services.ProdutoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -23,21 +24,21 @@ public class ProdutoResource {
 
     @ApiOperation(value = "Buscar produto")
     @GetMapping(value = "{codigo}")
-    public ResponseEntity<Produto> buscarProduto(@PathVariable Long codigo){
-        return ResponseEntity.ok().body(service.buscarPorCodigo(codigo));
+    public ResponseEntity<ProdutoModelDTO> buscarProduto(@PathVariable Long codigo) {
+        return ResponseEntity.ok().body(service.buscarPorCodigoModelProduto(codigo));
     }
 
     @ApiOperation(value = "Listar produto")
     @GetMapping
-    public ResponseEntity<List<Produto>> listaProduto() {
+    public ResponseEntity<List<ProdutoModelDTO>> listaProduto() {
         return ResponseEntity.ok().body(service.listaProduto());
     }
 
 
     @ApiOperation(value = "Salvar produto")
     @PostMapping
-    public ResponseEntity<Produto> salvarProduto(@Valid @RequestBody Produto produto) {
-        Produto produtoSalvo = service.salvarProduto(produto);
+    public ResponseEntity<ProdutoModelDTO> salvarProduto(@Valid @RequestBody ProdutoInsertDTO produtoInsertDTO) {
+        ProdutoModelDTO produtoSalvo = service.salvarProduto(produtoInsertDTO);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
@@ -48,8 +49,8 @@ public class ProdutoResource {
 
     @ApiOperation(value = "Atualizar produto")
     @PutMapping(value = "{codigo}")
-    public ResponseEntity<Void> atualizarProduto(@PathVariable Long codigo, @RequestBody Produto produto) {
-        service.atualizarProduto(codigo, produto);
+    public ResponseEntity<Void> atualizarProduto(@PathVariable Long codigo, @RequestBody ProdutoInsertDTO produtoInsertDTO) {
+        service.atualizarProduto(codigo, produtoInsertDTO);
         return ResponseEntity.noContent().build();
     }
 

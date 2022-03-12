@@ -2,7 +2,6 @@ package com.gvendas.gestaovendas.resources;
 
 import com.gvendas.gestaovendas.dtos.CategoriaInsertDTO;
 import com.gvendas.gestaovendas.dtos.CategoriaModelDTO;
-import com.gvendas.gestaovendas.models.Categoria;
 import com.gvendas.gestaovendas.services.CategoriaService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -47,13 +46,13 @@ public class CategoriaResource {
     @ApiOperation(value = "Buscar categoria")
     @GetMapping(value = "{codigo}")
     public ResponseEntity<CategoriaModelDTO> buscarCategoria(@PathVariable Long codigo){
-        return ResponseEntity.ok().body(service.buscarPorCodigo(codigo));
+        return ResponseEntity.ok().body(service.buscarPorCodigoModelCategoria(codigo));
     }
 
     @ApiOperation(value = "Atualizar categoria")
     @PutMapping(value = "{codigo}")
-    public ResponseEntity<Void> atualizarCategoria(@PathVariable Long codigo,@Valid @RequestBody Categoria categoria){
-        service.atualizarCagetoria(codigo, categoria);
+    public ResponseEntity<Void> atualizarCategoria(@PathVariable Long codigo,@Valid @RequestBody CategoriaInsertDTO categoriaInsertDTO){
+        service.atualizarCagetoria(codigo, categoriaInsertDTO);
         return ResponseEntity.noContent().build();
     }
 

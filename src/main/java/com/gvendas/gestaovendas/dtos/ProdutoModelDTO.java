@@ -1,36 +1,22 @@
-package com.gvendas.gestaovendas.models;
+package com.gvendas.gestaovendas.dtos;
 
-import javax.persistence.*;
+import com.gvendas.gestaovendas.models.Categoria;
+
+import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Objects;
 
-@Entity
-@Table(name = "produto")
-public class Produto {
+public class ProdutoModelDTO implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "codigo")
     private Long codigo;
-
-    @Column(name = "descricao")
     private String descricao;
-
-    @Column(name = "quantidade")
     private Integer quantidade;
-
-    @Column(name = "preco_custo")
     private BigDecimal precoCusto;
-
-    @Column(name = "preco_venda")
     private BigDecimal precoVenda;
-
-    @Column(name = "observacao")
     private String observacao;
-
-    @ManyToOne
-    @JoinColumn(name = "codigo_categoria", referencedColumnName = "codigo")
     private Categoria categoria;
+
+    public ProdutoModelDTO() {
+    }
 
     public Long getCodigo() {
         return codigo;
@@ -86,18 +72,5 @@ public class Produto {
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Produto produto = (Produto) o;
-        return Objects.equals(codigo, produto.codigo) && Objects.equals(descricao, produto.descricao) && Objects.equals(quantidade, produto.quantidade) && Objects.equals(precoCusto, produto.precoCusto) && Objects.equals(precoVenda, produto.precoVenda) && Objects.equals(observacao, produto.observacao) && Objects.equals(categoria, produto.categoria);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(codigo, descricao, quantidade, precoCusto, precoVenda, observacao, categoria);
     }
 }

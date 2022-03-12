@@ -33,10 +33,15 @@ public class CategoriaService {
         return listaEntidadeParaListaDtoModel(repository.findAll());
     }
 
-    public CategoriaModelDTO buscarPorCodigo(Long codigo) {
+    public CategoriaModelDTO buscarPorCodigoModelCategoria(Long codigo) {
         Categoria categoria = repository.findById(codigo)
                 .orElseThrow(() -> new CategoriaNaoEncontradaException("Categoria com codigo: " + codigo + " não existe."));
         return entidadeParaDtoModel(categoria);
+    }
+
+    public Categoria buscarPorCodigoEntidade(Long codigo) {
+        return repository.findById(codigo)
+                .orElseThrow(() -> new CategoriaNaoEncontradaException("Categoria com codigo: " + codigo + " não existe."));
     }
 
     public CategoriaModelDTO salvarCategoria(CategoriaInsertDTO categoriaInsertDTO) {
@@ -45,15 +50,16 @@ public class CategoriaService {
         return entidadeParaDtoModel(repository.save(categoria));
     }
 
-    public void atualizarCagetoria(Long codigo, Categoria categoria) {
-        Categoria categoriaSalva = dtoModelParaEntidade(buscarPorCodigo(codigo));
+    public void atualizarCagetoria(Long codigo, CategoriaInsertDTO categoriaInsertDTO) {
+        Categoria categoriaSalva = dtoModelParaEntidade(buscarPorCodigoModelCategoria(codigo));
+        Categoria categoria = dtoInsertParaEntidade(categoriaInsertDTO);
         categoriaEhDuplicada(categoria);
         BeanUtils.copyProperties(categoria, categoriaSalva, "codigo");
         repository.save(categoriaSalva);
     }
 
     public void apagarCategoria(Long codigo) throws SQLIntegrityConstraintViolationException {
-        Categoria categoria = dtoModelParaEntidade(buscarPorCodigo(codigo));
+        Categoria categoria = dtoModelParaEntidade(buscarPorCodigoModelCategoria(codigo));
         categoriaPossuiProdutosCadastrados(categoria);
         repository.delete(categoria);
     }
@@ -75,7 +81,7 @@ public class CategoriaService {
         return modelMapper.map(dtoInsert, Categoria.class);
     }
 
-    private Categoria dtoModelParaEntidade(CategoriaModelDTO categoriaModelDTO) {
+    public Categoria dtoModelParaEntidade(CategoriaModelDTO categoriaModelDTO) {
         return modelMapper.map(categoriaModelDTO, Categoria.class);
     }
 
