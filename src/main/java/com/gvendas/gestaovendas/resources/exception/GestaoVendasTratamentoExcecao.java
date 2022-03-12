@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Date;
 
 import static com.gvendas.gestaovendas.utils.DataHoraFormatada.formataDataHora;
@@ -58,6 +59,13 @@ public class GestaoVendasTratamentoExcecao {
 
     @ExceptionHandler(ProdutoDuplicadoException.class)
     public ResponseEntity<ErroPadrao> produtoDuplicado(ProdutoDuplicadoException ex, HttpServletRequest request) {
+        ErroPadrao erroPadrao = new ErroPadrao(formataDataHora(new Date()), HttpStatus.BAD_REQUEST.value(), "Integridade de dados",
+                ex.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erroPadrao);
+    }
+
+    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+    public ResponseEntity<ErroPadrao> VviolaçãoRestriçãoIntegridade(SQLIntegrityConstraintViolationException ex, HttpServletRequest request) {
         ErroPadrao erroPadrao = new ErroPadrao(formataDataHora(new Date()), HttpStatus.BAD_REQUEST.value(), "Integridade de dados",
                 ex.getMessage(), request.getRequestURI());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erroPadrao);

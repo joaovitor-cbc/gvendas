@@ -44,4 +44,10 @@ public class ProdutoResource {
         service.atualizarProduto(codigo, produto);
         return ResponseEntity.noContent().build();
     }
+
+    @DeleteMapping(value = "{codigo}")
+    public ResponseEntity<Void> apagarProduto(@PathVariable Long codigo) {
+        service.apagarProduto(codigo);
+        return ResponseEntity.noContent().build();
+    }
 }

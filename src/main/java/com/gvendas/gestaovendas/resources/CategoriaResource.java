@@ -11,6 +11,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 
@@ -56,7 +57,7 @@ public class CategoriaResource {
 
     @ApiOperation(value = "Apagar categoria")
     @DeleteMapping(value = "{codigo}")
-    public ResponseEntity<Void> apagarCategoria(@PathVariable Long codigo) {
+    public ResponseEntity<Void> apagarCategoria(@PathVariable Long codigo) throws SQLIntegrityConstraintViolationException {
         service.apagarCategoria(codigo);
         return ResponseEntity.noContent().build();
     }

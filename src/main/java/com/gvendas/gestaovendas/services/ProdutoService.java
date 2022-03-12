@@ -43,4 +43,9 @@ public class ProdutoService {
         BeanUtils.copyProperties(produto, produtoSalvo, "codigo");
         repo.save(produtoSalvo);
     }
+
+    public void apagarProduto(Long codigo) {
+        Produto produto = buscarPorCodigo(codigo);
+        repo.delete(produto);
+    }
 }
