@@ -48,6 +48,5 @@ public class CategoriaService {
     private void categoriaEhDuplicada(Categoria categoria) {
         Optional<Categoria> categoriaOptional = repository.findByNomeContaining(categoria.getNome());
         if (categoriaOptional.isPresent() && !categoriaOptional.get().getCodigo().equals(categoria.getCodigo()))
-            throw new CategoriaDuplicadaException("Categoria á está cadastrada " + categoria.getNome().toUpperCase());
-    }
+            throw new CategoriaDuplicadaException("Categoria já está cadastrada " + categoria.getNome().toUpperCase());    }
 }
