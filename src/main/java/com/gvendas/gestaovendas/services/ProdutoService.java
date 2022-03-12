@@ -6,6 +6,8 @@ import com.gvendas.gestaovendas.services.exception.ProdutoNaoEncontradoException
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProdutoService {
 
@@ -15,5 +17,9 @@ public class ProdutoService {
     public Produto buscarPorCodigo(Long codigo) {
         return repo.findById(codigo).orElseThrow(() -> new ProdutoNaoEncontradoException(
                 "Produto com codigo: " + codigo + " não existe."));
+    }
+
+    public List<Produto> listaProduto() {
+        return repo.findAll();
     }
 }

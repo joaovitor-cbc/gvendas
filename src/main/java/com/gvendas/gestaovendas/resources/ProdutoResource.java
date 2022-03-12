@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("produtos")
 public class ProdutoResource {
@@ -19,5 +21,10 @@ public class ProdutoResource {
     @GetMapping(value = "{codigo}")
     public ResponseEntity<Produto> buscarProduto(@PathVariable Long codigo){
         return ResponseEntity.ok().body(service.buscarPorCodigo(codigo));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Produto>> listaProduto() {
+        return ResponseEntity.ok().body(service.listaProduto());
     }
 }
