@@ -19,14 +19,14 @@ public class CategoriaResource {
 
 
     @PostMapping
-    public ResponseEntity<Void> salvarCategoria(@RequestBody Categoria categoria) {
+    public ResponseEntity<Categoria> salvarCategoria(@RequestBody Categoria categoria) {
         Categoria categoriaSalva = service.salvarCategoria(categoria);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(categoriaSalva.getCodigo())
                 .toUri();
-        return ResponseEntity.created(uri).build();
+        return ResponseEntity.created(uri).body(categoriaSalva);
     }
 
     @GetMapping
@@ -36,6 +36,12 @@ public class CategoriaResource {
 
     @GetMapping(value = "{codigo}")
     public ResponseEntity<Categoria> buscarCategoria(@PathVariable Long codigo){
-        return ResponseEntity.ok().body(service.buscarPorId(codigo));
+        return ResponseEntity.ok().body(service.buscarPorCodigo(codigo));
+    }
+
+    @PutMapping(value = "{codigo}")
+    public ResponseEntity<Void> atualizarCategoria(@PathVariable Long codigo, @RequestBody Categoria categoria){
+        service.atualizar(codigo, categoria);
+        return ResponseEntity.noContent().build();
     }
 }
