@@ -20,6 +20,14 @@ public class Categoria {
     @Length(min = 3, max = 50, message = "Nome deve conter no minimo 3 e no maximo 50 caracteres")
     private String nome;
 
+    public Categoria(Long codigo, String nome) {
+        this.codigo = codigo;
+        this.nome = nome;
+    }
+
+    public Categoria() {
+    }
+
     public Long getCodigo() {
         return codigo;
     }

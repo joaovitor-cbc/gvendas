@@ -15,7 +15,7 @@ import java.util.Date;
 public class GestaoVendasTratamentoExcecao {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    protected ResponseEntity<ErroPadrao> ArgumentoNaoValido(MethodArgumentNotValidException ex, HttpServletRequest request){
+    protected ResponseEntity<ErroPadrao> argumentoNaoValido(MethodArgumentNotValidException ex, HttpServletRequest request){
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         ValidacaoErro validacaoErro = new ValidacaoErro(sdf.format(new Date()), HttpStatus.UNPROCESSABLE_ENTITY.value(),
                 "Erro de validação.", ex.getMessage(), request.getRequestURI());
@@ -25,7 +25,7 @@ public class GestaoVendasTratamentoExcecao {
     }
 
     @ExceptionHandler(CategoriaNaoEncontrada.class)
-    protected ResponseEntity<ErroPadrao> ArgumentoNaoValido(CategoriaNaoEncontrada ex, HttpServletRequest request) {
+    protected ResponseEntity<ErroPadrao> categoriaNaoEncontrada(CategoriaNaoEncontrada ex, HttpServletRequest request){
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         ErroPadrao erroPadrao = new ErroPadrao(sdf.format(new Date()), HttpStatus.NOT_FOUND.value(), "Não encontrado.",
                 ex.getMessage(), request.getRequestURI());
