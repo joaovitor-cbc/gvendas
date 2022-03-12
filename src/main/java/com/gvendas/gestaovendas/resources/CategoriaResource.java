@@ -42,7 +42,13 @@ public class CategoriaResource {
 
     @PutMapping(value = "{codigo}")
     public ResponseEntity<Void> atualizarCategoria(@PathVariable Long codigo,@Valid @RequestBody Categoria categoria){
-        service.atualizar(codigo, categoria);
+        service.atualizarCagetoria(codigo, categoria);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping(value = "{codigo}")
+    public ResponseEntity<Void> apagarCategoria(@PathVariable Long codigo) {
+        service.apagarCategoria(codigo);
         return ResponseEntity.noContent().build();
     }
 }
