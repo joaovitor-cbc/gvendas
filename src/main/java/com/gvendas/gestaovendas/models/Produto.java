@@ -1,4 +1,4 @@
-package com.gvendas.gestaovendas.model;
+package com.gvendas.gestaovendas.models;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
