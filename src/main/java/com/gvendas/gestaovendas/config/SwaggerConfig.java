@@ -28,8 +28,8 @@ public class SwaggerConfig {
     //Testar: http://localhost:8080/swagger-ui.html
 
     private static final String BASE_PACKAGE = "com.gvendas.gestaovendas.resources";
-    private static final String API_TITLE = "E-commerce API";
-    private static final String API_DESCRIPTION = "API REST para e-commerce";
+    private static final String API_TITLE = "Gvendas";
+    private static final String API_DESCRIPTION = "API REST para gestão de vendas";
     private static final String CONTACT_NAME = "João Vitor";
     private static final String CONTACT_GITHUB = "https://gtihub.com/joaovitor-cbc";
     private static final String CONTACT_EMAIL = "joaovitor.novacruz@gmail.com";
