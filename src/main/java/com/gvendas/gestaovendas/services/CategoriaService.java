@@ -26,8 +26,6 @@ public class CategoriaService {
     }
 
     public Categoria salvarCategoria(Categoria categoria){
-        if (categoria == null)
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Categoria nulo.");
         return repository.save(categoria);
     }
 

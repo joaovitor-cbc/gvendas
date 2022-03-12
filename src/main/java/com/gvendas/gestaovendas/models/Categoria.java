@@ -16,8 +16,8 @@ public class Categoria {
     private Long codigo;
 
     @Column(name = "nome")
-    @NotBlank(message = "Nome")
-    @Length(min = 3, max = 50, message = "Nome")
+    @NotBlank(message = "Nome não deve ser vazio")
+    @Length(min = 3, max = 50, message = "Nome deve conter no minimo 3 e no maximo 50 caracteres")
     private String nome;
 
     public Long getCodigo() {
