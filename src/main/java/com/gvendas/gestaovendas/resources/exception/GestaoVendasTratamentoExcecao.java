@@ -1,9 +1,6 @@
 package com.gvendas.gestaovendas.resources.exception;
 
-import com.gvendas.gestaovendas.services.exception.CategoriaDuplicadaException;
-import com.gvendas.gestaovendas.services.exception.CategoriaNaoEncontradaException;
-import com.gvendas.gestaovendas.services.exception.ProdutoDuplicadoException;
-import com.gvendas.gestaovendas.services.exception.ProdutoNaoEncontradoException;
+import com.gvendas.gestaovendas.services.exception.*;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -67,6 +64,13 @@ public class GestaoVendasTratamentoExcecao {
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
     public ResponseEntity<ErroPadrao> VviolaçãoRestriçãoIntegridade(SQLIntegrityConstraintViolationException ex, HttpServletRequest request) {
         ErroPadrao erroPadrao = new ErroPadrao(formataDataHora(new Date()), HttpStatus.BAD_REQUEST.value(), "Integridade de dados",
+                ex.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erroPadrao);
+    }
+
+    @ExceptionHandler(ClienteNaoEncontradoException.class)
+    public ResponseEntity<ErroPadrao> clienteNaoEncontrado(ClienteNaoEncontradoException ex, HttpServletRequest request) {
+        ErroPadrao erroPadrao = new ErroPadrao(formataDataHora(new Date()), HttpStatus.BAD_REQUEST.value(), "Não encontrado",
                 ex.getMessage(), request.getRequestURI());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erroPadrao);
     }
