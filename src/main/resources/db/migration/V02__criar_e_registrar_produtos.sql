@@ -1,12 +1,12 @@
 CREATE TABLE produto (
-                         codigo BIGINT PRIMARY KEY AUTO_INCREMENT,
-                         descricao VARCHAR(100) NOT NULL,
-                         quantidade INTEGER NOT NULL,
-                         preco_custo DECIMAL(10,2) NOT NULL,
-                         preco_venda DECIMAL(10,2) NOT NULL,
-                         observacao VARCHAR(500),
-                         codigo_categoria BIGINT NOT NULL,
-                         FOREIGN KEY (codigo_categoria) REFERENCES categoria(codigo)
+    codigo BIGINT PRIMARY KEY AUTO_INCREMENT,
+    descricao VARCHAR(100) NOT NULL,
+    quantidade INTEGER NOT NULL,
+    preco_custo DECIMAL(10,2) NOT NULL,
+    preco_venda DECIMAL(10,2) NOT NULL,
+    observacao VARCHAR(500),
+    codigo_categoria BIGINT NOT NULL,
+FOREIGN KEY (codigo_categoria) REFERENCES categoria(codigo)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
 
 
