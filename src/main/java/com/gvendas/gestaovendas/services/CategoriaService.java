@@ -2,6 +2,7 @@ package com.gvendas.gestaovendas.services;
 
 import com.gvendas.gestaovendas.models.Categoria;
 import com.gvendas.gestaovendas.repositorys.CategoriaRepository;
+import com.gvendas.gestaovendas.services.exceptions.CategoriaNaoEncontrada;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,7 +23,7 @@ public class CategoriaService {
 
     public Categoria buscarPorCodigo(Long codigo){
         return repository.findById(codigo)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Categoria não encontrada"));
+                .orElseThrow(() -> new CategoriaNaoEncontrada("Categoria não encontrada"));
     }
 
     public Categoria salvarCategoria(Categoria categoria){
