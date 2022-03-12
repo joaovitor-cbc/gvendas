@@ -48,6 +48,20 @@ public class EnderecoService {
             throw new SQLIntegrityConstraintViolationException("Esse endereço já está cadastrato para esse cliente.");
     }
 
+    public void apagarEndereco(EnderecoModelDTO enderecoModelDTO, Long codigoCliente) {
+        Optional<Endereco> enderecoOpt = repository.findByCodigoAndClienteCodigo(enderecoModelDTO.getCodigo(), codigoCliente);
+
+        if (enderecoOpt.isEmpty())
+            throw new IllegalArgumentException("Não existe nenhum endereco com esse codigo "+enderecoModelDTO.getCodigo()+
+                    " cadastrado para esse cliente.");
+
+        Endereco endereco = enderecoOpt.get();
+        Cliente cliente = endereco.getCliente();
+        cliente.getEnderecos().remove(endereco);
+        clienteRepository.save(cliente);
+        repository.delete(endereco);
+    }
+
     private Endereco enderecoInsertDtoToEntity(EnderecoInsertDTO enderecoInsertDTO) {
         return modelMapper.map(enderecoInsertDTO, Endereco.class);
     }

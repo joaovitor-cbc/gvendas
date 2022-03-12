@@ -30,4 +30,10 @@ public class EnderecoResource {
                 .toUri();
         return ResponseEntity.created(uri).body(enderecoModelDTO);
     }
+
+    @DeleteMapping("/{codigo}")
+    public ResponseEntity<Void> ApagarEndereco(@PathVariable("codigo") Long codigo, @RequestBody EnderecoModelDTO enderecoModelDTO) {
+        service.apagarEndereco(enderecoModelDTO, codigo);
+        return ResponseEntity.noContent().build();
+    }
 }

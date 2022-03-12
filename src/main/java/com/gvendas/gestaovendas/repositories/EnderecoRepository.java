@@ -18,4 +18,6 @@ public interface EnderecoRepository extends JpaRepository<Endereco, Long> {
                                     @Param("complemento") String complemento, @Param("bairro") String bairro,
                                     @Param("cep") String cep, @Param("cidade") String cidade, @Param("estado") String estado,
                                     @Param("cliente") Cliente cliente);
+
+    Optional<Endereco> findByCodigoAndClienteCodigo(Long codigoEndereco, Long codigoCliente);
 }
