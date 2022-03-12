@@ -1,6 +1,7 @@
 package com.gvendas.gestaovendas.resources.exception;
 
-import com.gvendas.gestaovendas.services.exception.CategoriaNaoEncontrada;
+import com.gvendas.gestaovendas.services.exception.CategoriaDuplicadaException;
+import com.gvendas.gestaovendas.services.exception.CategoriaNaoEncontradaException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +26,8 @@ public class GestaoVendasTratamentoExcecao {
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(validacaoErro);
     }
 
-    @ExceptionHandler(CategoriaNaoEncontrada.class)
-    public ResponseEntity<ErroPadrao> categoriaNaoEncontrada(CategoriaNaoEncontrada ex, HttpServletRequest request) {
+    @ExceptionHandler(CategoriaNaoEncontradaException.class)
+    public ResponseEntity<ErroPadrao> categoriaNaoEncontrada(CategoriaNaoEncontradaException ex, HttpServletRequest request){
         ErroPadrao erroPadrao = new ErroPadrao(formataDataHora(new Date()), HttpStatus.NOT_FOUND.value(), "Não encontrado.",
                 ex.getMessage(), request.getRequestURI());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erroPadrao);
@@ -35,6 +36,13 @@ public class GestaoVendasTratamentoExcecao {
     @ExceptionHandler(EmptyResultDataAccessException.class)
     public ResponseEntity<ErroPadrao> acessoDadosResultadoVazio(EmptyResultDataAccessException ex, HttpServletRequest request){
         ErroPadrao erroPadrao = new ErroPadrao(formataDataHora(new Date()), HttpStatus.BAD_REQUEST.value(), "Não encontrado.",
+                ex.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erroPadrao);
+    }
+
+    @ExceptionHandler(CategoriaDuplicadaException.class)
+    public ResponseEntity<ErroPadrao> categoriaDuplicada(CategoriaDuplicadaException ex, HttpServletRequest request){
+        ErroPadrao erroPadrao = new ErroPadrao(formataDataHora(new Date()), HttpStatus.BAD_REQUEST.value(), "Integridade de dados.",
                 ex.getMessage(), request.getRequestURI());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erroPadrao);
     }
