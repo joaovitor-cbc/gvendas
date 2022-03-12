@@ -23,7 +23,13 @@ public class CategoriaService {
     public Categoria buscarPorId(Long codigo){
         Optional<Categoria> categoriaOpt = repository.findById(codigo);
         if (categoriaOpt.isEmpty())
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Categoria não encontrada");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Categoria não encontrada.");
         return categoriaOpt.get();
+    }
+
+    public Categoria salvarCategoria(Categoria categoria){
+        if (categoria == null)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Categoria nulo.");
+        return repository.save(categoria);
     }
 }
