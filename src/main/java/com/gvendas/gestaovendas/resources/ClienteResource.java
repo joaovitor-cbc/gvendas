@@ -35,4 +35,10 @@ public class ClienteResource {
         service.atualizar(clienteInsertDTO, codigo);
         return ResponseEntity.noContent().build();
     }
+
+    @DeleteMapping("/{codigo}")
+    public ResponseEntity<Void> ApagarCliente(@PathVariable("codigo") Long codigo) {
+        service.apagarCliente(codigo);
+        return ResponseEntity.noContent().build();
+    }
 }

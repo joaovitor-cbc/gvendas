@@ -65,4 +65,9 @@ public class ClienteService {
     private ClienteModelDTO entityToClienteModelDto(Cliente cliente) {
         return modelMapper.map(cliente, ClienteModelDTO.class);
     }
+
+    public void apagarCliente(Long codigo) {
+        Cliente cliente = buscarPorCodigo(codigo);
+        repository.delete(cliente);
+    }
 }
