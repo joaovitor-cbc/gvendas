@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 public class EnderecoInsertDTO implements Serializable {
 
-    private Integer cliente;
     private String logradouro;
     private Integer numero;
     private String complemento;
@@ -14,14 +13,6 @@ public class EnderecoInsertDTO implements Serializable {
     private String estado;
 
     public EnderecoInsertDTO() {}
-
-    public Integer getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Integer cliente) {
-        this.cliente = cliente;
-    }
 
     public String getLogradouro() {
         return logradouro;

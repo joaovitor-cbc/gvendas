@@ -10,6 +10,7 @@ public class Endereco {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codigo;
     @ManyToOne
+    @JoinColumn(name = "cliente_codigo", referencedColumnName = "codigo")
     private Cliente cliente;
     private String logradouro;
     private Integer numero;
