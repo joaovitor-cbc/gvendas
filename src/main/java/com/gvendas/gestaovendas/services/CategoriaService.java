@@ -30,19 +30,15 @@ public class CategoriaService {
         return repository.save(categoria);
     }
 
-    public Categoria atualizarCagetoria(Long codigo, Categoria categoria){
-        Categoria categoriaSalva = validarCategoriaExistente(codigo);
+    public void atualizarCagetoria(Long codigo, Categoria categoria){
+        Categoria categoriaSalva = buscarPorCodigo(codigo);
         categoriaEhDuplicada(categoria);
         BeanUtils.copyProperties(categoria, categoriaSalva, "codigo");
-        return repository.save(categoriaSalva);
+        repository.save(categoriaSalva);
     }
 
     public void apagarCategoria(Long codigo){
         repository.deleteById(codigo);
-    }
-
-    private Categoria validarCategoriaExistente(Long codigo) {
-        return buscarPorCodigo(codigo);
     }
 
     private void categoriaEhDuplicada(Categoria categoria) {

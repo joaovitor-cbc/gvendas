@@ -1,6 +1,9 @@
 package com.gvendas.gestaovendas.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Objects;
 
@@ -13,21 +16,27 @@ public class Produto {
     @Column(name = "codigo")
     private Long codigo;
 
+    @NotBlank(message = "A descricao não pode ser vazio.")
     @Column(name = "descricao")
     private String descricao;
 
+    @NotNull(message = "quantidade não pode ser nulo.")
+    @Min(value = 1, message = "O minimo de caracteres permitido é 1")
     @Column(name = "quantidade")
     private Integer quantidade;
 
+    @NotNull(message = "O preco custo não pode ser nulo.")
     @Column(name = "preco_custo")
     private BigDecimal precoCusto;
 
+    @NotNull(message = "O preco venda não pode ser nulo.")
     @Column(name = "preco_venda")
     private BigDecimal precoVenda;
 
     @Column(name = "observacao")
     private String observacao;
 
+    @NotNull(message = "A categoria não pode ser nulo.")
     @ManyToOne
     @JoinColumn(name = "codigo_categoria", referencedColumnName = "codigo")
     private Categoria categoria;

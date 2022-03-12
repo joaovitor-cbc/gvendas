@@ -2,6 +2,7 @@ package com.gvendas.gestaovendas.resources.exception;
 
 import com.gvendas.gestaovendas.services.exception.CategoriaDuplicadaException;
 import com.gvendas.gestaovendas.services.exception.CategoriaNaoEncontradaException;
+import com.gvendas.gestaovendas.services.exception.ProdutoDuplicadoException;
 import com.gvendas.gestaovendas.services.exception.ProdutoNaoEncontradoException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -51,6 +52,13 @@ public class GestaoVendasTratamentoExcecao {
     @ExceptionHandler(ProdutoNaoEncontradoException.class)
     public ResponseEntity<ErroPadrao> produtoNaoEncontrado(ProdutoNaoEncontradoException ex, HttpServletRequest request) {
         ErroPadrao erroPadrao = new ErroPadrao(formataDataHora(new Date()), HttpStatus.BAD_REQUEST.value(), "Não encontrado",
+                ex.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erroPadrao);
+    }
+
+    @ExceptionHandler(ProdutoDuplicadoException.class)
+    public ResponseEntity<ErroPadrao> produtoDuplicado(ProdutoDuplicadoException ex, HttpServletRequest request) {
+        ErroPadrao erroPadrao = new ErroPadrao(formataDataHora(new Date()), HttpStatus.BAD_REQUEST.value(), "Integridade de dados",
                 ex.getMessage(), request.getRequestURI());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erroPadrao);
     }
