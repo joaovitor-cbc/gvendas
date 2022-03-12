@@ -1,5 +1,7 @@
 package com.gvendas.gestaovendas.resources;
 
+import com.gvendas.gestaovendas.dtos.CategoriaInsertDTO;
+import com.gvendas.gestaovendas.dtos.CategoriaModelDTO;
 import com.gvendas.gestaovendas.models.Categoria;
 import com.gvendas.gestaovendas.services.CategoriaService;
 import io.swagger.annotations.Api;
@@ -26,8 +28,8 @@ public class CategoriaResource {
 
     @ApiOperation(value = "Salvar categoria")
     @PostMapping
-    public ResponseEntity<Categoria> salvarCategoria(@Valid @RequestBody Categoria categoria){
-        Categoria categoriaSalva = service.salvarCategoria(categoria);
+    public ResponseEntity<CategoriaModelDTO> salvarCategoria(@Valid @RequestBody CategoriaInsertDTO categoriaInsertDTO){
+        CategoriaModelDTO categoriaSalva = service.salvarCategoria(categoriaInsertDTO);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
@@ -38,13 +40,13 @@ public class CategoriaResource {
 
     @ApiOperation(value = "Lista de categoria")
     @GetMapping
-    public ResponseEntity<List<Categoria>> listaCategoria(){
+    public ResponseEntity<List<CategoriaModelDTO>> listaCategoria(){
         return ResponseEntity.ok().body(service.buscarTudo());
     }
 
     @ApiOperation(value = "Buscar categoria")
     @GetMapping(value = "{codigo}")
-    public ResponseEntity<Categoria> buscarCategoria(@PathVariable Long codigo){
+    public ResponseEntity<CategoriaModelDTO> buscarCategoria(@PathVariable Long codigo){
         return ResponseEntity.ok().body(service.buscarPorCodigo(codigo));
     }
 

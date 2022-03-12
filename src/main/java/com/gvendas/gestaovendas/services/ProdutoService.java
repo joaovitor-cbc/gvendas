@@ -33,8 +33,9 @@ public class ProdutoService {
 
     public void produtoEhDuplicado(Produto produto) {
         Optional<Produto> produtoOpt = repo.findByDescricaoAndCategoriaCodigo(produto.getDescricao(), produto.getCategoria().getCodigo());
-        if (produtoOpt.isPresent()) throw new ProdutoDuplicadoException("Produto já cadastrado na base de dados para essa categoria: "
-                + produto.getCategoria().getNome());
+        if (produtoOpt.isPresent())
+            throw new ProdutoDuplicadoException("Produto já cadastrado na base de dados para essa categoria: "
+                    + produto.getCategoria().getNome());
     }
 
     public void atualizarProduto(Long codigo, Produto produto) {
