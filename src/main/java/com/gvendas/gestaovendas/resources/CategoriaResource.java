@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class CategoriaResource {
 
 
     @PostMapping
-    public ResponseEntity<Categoria> salvarCategoria(@RequestBody Categoria categoria) {
+    public ResponseEntity<Categoria> salvarCategoria(@Valid @RequestBody Categoria categoria){
         Categoria categoriaSalva = service.salvarCategoria(categoria);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -40,7 +41,7 @@ public class CategoriaResource {
     }
 
     @PutMapping(value = "{codigo}")
-    public ResponseEntity<Void> atualizarCategoria(@PathVariable Long codigo, @RequestBody Categoria categoria){
+    public ResponseEntity<Void> atualizarCategoria(@PathVariable Long codigo,@Valid @RequestBody Categoria categoria){
         service.atualizar(codigo, categoria);
         return ResponseEntity.noContent().build();
     }

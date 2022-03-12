@@ -33,8 +33,8 @@ public class CategoriaService {
 
     public Categoria atualizar(Long codigo, Categoria categoria){
         Categoria categoriaSalva = validarCategoriaExistente(codigo);
-        BeanUtils.copyProperties(categoria, categoriaSalva, "codigo", "nome");
-        return repository.save(categoria);
+        BeanUtils.copyProperties(categoria, categoriaSalva, "codigo");
+        return repository.save(categoriaSalva);
     }
 
     private Categoria validarCategoriaExistente(Long codigo) {
