@@ -12,13 +12,16 @@ public class ItemVenda {
     private Long codigo;
 
     @ManyToOne
+    @JoinColumn(name = "codigo_produto", referencedColumnName = "codigo")
     private Produto produto;
 
     @ManyToOne
+    @JoinColumn(name = "codigo_venda", referencedColumnName = "codigo")
     private Venda venda;
 
     private Integer quantidade;
 
+    @Column(name = "preco_vendido")
     private BigDecimal precoVendido;
 
     public ItemVenda() {}

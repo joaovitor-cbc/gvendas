@@ -1,7 +1,7 @@
 package com.gvendas.gestaovendas.models;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
@@ -11,14 +11,16 @@ public class Venda {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codigo;
 
-    private Date data;
+    @Column(name = "data")
+    private LocalDate data;
 
     @ManyToOne
+    @JoinColumn(name = "codigo_cliente", referencedColumnName = "codigo")
     private Cliente cliente;
 
     public Venda() {}
 
-    public Venda(Long codigo, Date data, Cliente cliente) {
+    public Venda(Long codigo, LocalDate data, Cliente cliente) {
         this.codigo = codigo;
         this.data = data;
         this.cliente = cliente;
@@ -32,11 +34,11 @@ public class Venda {
         this.codigo = codigo;
     }
 
-    public Date getData() {
+    public LocalDate getData() {
         return data;
     }
 
-    public void setData(Date data) {
+    public void setData(LocalDate data) {
         this.data = data;
     }
 
