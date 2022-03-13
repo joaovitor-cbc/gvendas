@@ -1,7 +1,7 @@
 package com.gvendas.gestaovendas.services;
 
-import com.gvendas.gestaovendas.dtos.CategoriaInsertDTO;
-import com.gvendas.gestaovendas.dtos.CategoriaModelDTO;
+import com.gvendas.gestaovendas.dtos.categoria.CategoriaRequestDTO;
+import com.gvendas.gestaovendas.dtos.categoria.CategoriaResponseDTO;
 import com.gvendas.gestaovendas.models.Categoria;
 import com.gvendas.gestaovendas.models.Produto;
 import com.gvendas.gestaovendas.repositories.CategoriaRepository;
@@ -29,11 +29,11 @@ public class CategoriaService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public List<CategoriaModelDTO> buscarTudo() {
+    public List<CategoriaResponseDTO> buscarTudo() {
         return listaEntidadeParaListaDtoModel(repository.findAll());
     }
 
-    public CategoriaModelDTO buscarPorCodigoModelCategoria(Long codigo) {
+    public CategoriaResponseDTO buscarPorCodigoModelCategoria(Long codigo) {
         Categoria categoria = repository.findById(codigo)
                 .orElseThrow(() -> new CategoriaNaoEncontradaException("Categoria com codigo: " + codigo + " não existe."));
         return entidadeParaDtoModel(categoria);
@@ -44,13 +44,13 @@ public class CategoriaService {
                 .orElseThrow(() -> new CategoriaNaoEncontradaException("Categoria com codigo: " + codigo + " não existe."));
     }
 
-    public CategoriaModelDTO salvarCategoria(CategoriaInsertDTO categoriaInsertDTO) {
+    public CategoriaResponseDTO salvarCategoria(CategoriaRequestDTO categoriaInsertDTO) {
         Categoria categoria = dtoInsertParaEntidade(categoriaInsertDTO);
         categoriaEhDuplicada(categoria);
         return entidadeParaDtoModel(repository.save(categoria));
     }
 
-    public void atualizarCagetoria(Long codigo, CategoriaInsertDTO categoriaInsertDTO) {
+    public void atualizarCagetoria(Long codigo, CategoriaRequestDTO categoriaInsertDTO) {
         Categoria categoriaSalva = dtoModelParaEntidade(buscarPorCodigoModelCategoria(codigo));
         Categoria categoria = dtoInsertParaEntidade(categoriaInsertDTO);
         categoriaEhDuplicada(categoria);
@@ -77,19 +77,19 @@ public class CategoriaService {
             throw new SQLIntegrityConstraintViolationException("Categoria: " + categoria.getNome() + " possui produtos cadastrados.");
     }
 
-    private Categoria dtoInsertParaEntidade(CategoriaInsertDTO dtoInsert) {
+    private Categoria dtoInsertParaEntidade(CategoriaRequestDTO dtoInsert) {
         return modelMapper.map(dtoInsert, Categoria.class);
     }
 
-    public Categoria dtoModelParaEntidade(CategoriaModelDTO categoriaModelDTO) {
+    public Categoria dtoModelParaEntidade(CategoriaResponseDTO categoriaModelDTO) {
         return modelMapper.map(categoriaModelDTO, Categoria.class);
     }
 
-    private CategoriaModelDTO entidadeParaDtoModel(Categoria entidade) {
-        return modelMapper.map(entidade, CategoriaModelDTO.class);
+    private CategoriaResponseDTO entidadeParaDtoModel(Categoria entidade) {
+        return modelMapper.map(entidade, CategoriaResponseDTO.class);
     }
 
-    private List<CategoriaModelDTO> listaEntidadeParaListaDtoModel(List<Categoria> listaCategoria) {
+    private List<CategoriaResponseDTO> listaEntidadeParaListaDtoModel(List<Categoria> listaCategoria) {
         return listaCategoria.stream().map(this::entidadeParaDtoModel).toList();
     }
 }

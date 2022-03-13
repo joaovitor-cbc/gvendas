@@ -1,11 +1,11 @@
-package com.gvendas.gestaovendas.dtos;
+package com.gvendas.gestaovendas.dtos.produto;
 
 import com.gvendas.gestaovendas.models.Categoria;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class ProdutoModelDTO implements Serializable {
+public class ProdutoResponseDTO implements Serializable {
 
     private Long codigo;
     private String descricao;
@@ -15,7 +15,7 @@ public class ProdutoModelDTO implements Serializable {
     private String observacao;
     private Categoria categoria;
 
-    public ProdutoModelDTO() {
+    public ProdutoResponseDTO() {
     }
 
     public Long getCodigo() {

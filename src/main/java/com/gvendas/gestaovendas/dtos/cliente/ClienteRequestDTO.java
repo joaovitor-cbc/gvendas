@@ -1,16 +1,16 @@
-package com.gvendas.gestaovendas.dtos;
+package com.gvendas.gestaovendas.dtos.cliente;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
-public class ClienteInsertDTO implements Serializable {
+public class ClienteRequestDTO implements Serializable {
 
     @NotBlank(message = "O campo nome não pode ser vazio ou nulo")
     private String nome;
     @NotBlank(message = "O campo telefone não pode ser vazio ou nulo")
     private String telefone;
 
-    public ClienteInsertDTO() {}
+    public ClienteRequestDTO() {}
 
     public String getNome() {
         return nome;

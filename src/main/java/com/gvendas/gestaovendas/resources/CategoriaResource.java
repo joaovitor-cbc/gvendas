@@ -1,7 +1,7 @@
 package com.gvendas.gestaovendas.resources;
 
-import com.gvendas.gestaovendas.dtos.CategoriaInsertDTO;
-import com.gvendas.gestaovendas.dtos.CategoriaModelDTO;
+import com.gvendas.gestaovendas.dtos.categoria.CategoriaRequestDTO;
+import com.gvendas.gestaovendas.dtos.categoria.CategoriaResponseDTO;
 import com.gvendas.gestaovendas.services.CategoriaService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,8 +27,8 @@ public class CategoriaResource {
 
     @ApiOperation(value = "Salvar categoria")
     @PostMapping
-    public ResponseEntity<CategoriaModelDTO> salvarCategoria(@Valid @RequestBody CategoriaInsertDTO categoriaInsertDTO){
-        CategoriaModelDTO categoriaSalva = service.salvarCategoria(categoriaInsertDTO);
+    public ResponseEntity<CategoriaResponseDTO> salvarCategoria(@Valid @RequestBody CategoriaRequestDTO categoriaInsertDTO){
+        CategoriaResponseDTO categoriaSalva = service.salvarCategoria(categoriaInsertDTO);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
@@ -39,19 +39,19 @@ public class CategoriaResource {
 
     @ApiOperation(value = "Lista de categoria")
     @GetMapping
-    public ResponseEntity<List<CategoriaModelDTO>> listaCategoria(){
+    public ResponseEntity<List<CategoriaResponseDTO>> listaCategoria(){
         return ResponseEntity.ok().body(service.buscarTudo());
     }
 
     @ApiOperation(value = "Buscar categoria")
     @GetMapping(value = "{codigo}")
-    public ResponseEntity<CategoriaModelDTO> buscarCategoria(@PathVariable Long codigo){
+    public ResponseEntity<CategoriaResponseDTO> buscarCategoria(@PathVariable Long codigo){
         return ResponseEntity.ok().body(service.buscarPorCodigoModelCategoria(codigo));
     }
 
     @ApiOperation(value = "Atualizar categoria")
     @PutMapping(value = "{codigo}")
-    public ResponseEntity<Void> atualizarCategoria(@PathVariable Long codigo,@Valid @RequestBody CategoriaInsertDTO categoriaInsertDTO){
+    public ResponseEntity<Void> atualizarCategoria(@PathVariable Long codigo,@Valid @RequestBody CategoriaRequestDTO categoriaInsertDTO){
         service.atualizarCagetoria(codigo, categoriaInsertDTO);
         return ResponseEntity.noContent().build();
     }

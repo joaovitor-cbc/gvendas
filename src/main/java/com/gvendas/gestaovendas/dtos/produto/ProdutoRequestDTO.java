@@ -1,4 +1,4 @@
-package com.gvendas.gestaovendas.dtos;
+package com.gvendas.gestaovendas.dtos.produto;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class ProdutoInsertDTO implements Serializable {
+public class ProdutoRequestDTO implements Serializable {
 
     @NotBlank(message = "A descricao não pode ser vazio.")
     @Length(min = 2, max = 100, message = "O minimo é 2 e o maximo  é 100 de caracteres para descricao")
@@ -31,7 +31,7 @@ public class ProdutoInsertDTO implements Serializable {
     @NotNull
     private Long categoriaCodigo;
 
-    public ProdutoInsertDTO() {
+    public ProdutoRequestDTO() {
     }
 
     public String getDescricao() {

@@ -1,13 +1,9 @@
-package com.gvendas.gestaovendas.dtos;
-
-import com.gvendas.gestaovendas.models.Cliente;
+package com.gvendas.gestaovendas.dtos.endereco;
 
 import java.io.Serializable;
 
-public class EnderecoModelDTO implements Serializable {
+public class EnderecoRequestDTO implements Serializable {
 
-    private Long codigo;
-    private Cliente cliente;
     private String logradouro;
     private Integer numero;
     private String complemento;
@@ -16,23 +12,7 @@ public class EnderecoModelDTO implements Serializable {
     private String cidade;
     private String estado;
 
-    public EnderecoModelDTO() {}
-
-    public Long getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(Long codigo) {
-        this.codigo = codigo;
-    }
-
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
+    public EnderecoRequestDTO() {}
 
     public String getLogradouro() {
         return logradouro;

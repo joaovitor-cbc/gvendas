@@ -1,7 +1,7 @@
 package com.gvendas.gestaovendas.services;
 
-import com.gvendas.gestaovendas.dtos.EnderecoInsertDTO;
-import com.gvendas.gestaovendas.dtos.EnderecoModelDTO;
+import com.gvendas.gestaovendas.dtos.endereco.EnderecoRequestDTO;
+import com.gvendas.gestaovendas.dtos.endereco.EnderecoResponseDTO;
 import com.gvendas.gestaovendas.models.Cliente;
 import com.gvendas.gestaovendas.models.Endereco;
 import com.gvendas.gestaovendas.repositories.ClienteRepository;
@@ -29,7 +29,7 @@ public class EnderecoService {
     private ClienteRepository clienteRepository;
 
 
-    public EnderecoModelDTO salvarEndereco(EnderecoInsertDTO enderecoInsertDTO, Long clienteCodigo) throws SQLIntegrityConstraintViolationException {
+    public EnderecoResponseDTO salvarEndereco(EnderecoRequestDTO enderecoInsertDTO, Long clienteCodigo) throws SQLIntegrityConstraintViolationException {
         Cliente cliente = clienteService.buscarPorCodigo(clienteCodigo);
         enderecoJaCadastrado(enderecoInsertDTO, cliente);
         Endereco endereco = enderecoInsertDtoToEntity(enderecoInsertDTO);
@@ -40,7 +40,7 @@ public class EnderecoService {
         return entityToEnderecoModelDto(endereco);
     }
 
-    private void enderecoJaCadastrado(EnderecoInsertDTO enderecoInsertDTO, Cliente cliente) throws SQLIntegrityConstraintViolationException {
+    private void enderecoJaCadastrado(EnderecoRequestDTO enderecoInsertDTO, Cliente cliente) throws SQLIntegrityConstraintViolationException {
         Optional<Endereco> enderecoOpt = repository.findEndereco(enderecoInsertDTO.getLogradouro(), enderecoInsertDTO.getNumero(), enderecoInsertDTO.getComplemento(),
                 enderecoInsertDTO.getBairro(), enderecoInsertDTO.getCep(), enderecoInsertDTO.getCidade(), enderecoInsertDTO.getEstado(),
                 cliente);
@@ -48,7 +48,7 @@ public class EnderecoService {
             throw new SQLIntegrityConstraintViolationException("Esse endereço já está cadastrato para esse cliente.");
     }
 
-    public void apagarEndereco(EnderecoModelDTO enderecoModelDTO, Long codigoCliente) {
+    public void apagarEndereco(EnderecoResponseDTO enderecoModelDTO, Long codigoCliente) {
         Optional<Endereco> enderecoOpt = repository.findByCodigoAndClienteCodigo(enderecoModelDTO.getCodigo(), codigoCliente);
 
         if (enderecoOpt.isEmpty())
@@ -62,11 +62,11 @@ public class EnderecoService {
         repository.delete(endereco);
     }
 
-    private Endereco enderecoInsertDtoToEntity(EnderecoInsertDTO enderecoInsertDTO) {
+    private Endereco enderecoInsertDtoToEntity(EnderecoRequestDTO enderecoInsertDTO) {
         return modelMapper.map(enderecoInsertDTO, Endereco.class);
     }
 
-    private EnderecoModelDTO entityToEnderecoModelDto(Endereco endereco) {
-        return modelMapper.map(endereco, EnderecoModelDTO.class);
+    private EnderecoResponseDTO entityToEnderecoModelDto(Endereco endereco) {
+        return modelMapper.map(endereco, EnderecoResponseDTO.class);
     }
 }

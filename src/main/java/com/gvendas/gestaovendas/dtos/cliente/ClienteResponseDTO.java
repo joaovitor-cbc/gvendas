@@ -1,15 +1,15 @@
-package com.gvendas.gestaovendas.dtos;
+package com.gvendas.gestaovendas.dtos.cliente;
 
 import java.io.Serializable;
 
-public class ClienteModelDTO implements Serializable {
+public class ClienteResponseDTO implements Serializable {
 
     private Long codigo;
     private String nome;
     private String telefone;
     private Boolean ativo;
 
-    public ClienteModelDTO() {}
+    public ClienteResponseDTO() {}
 
     public Long getCodigo() {
         return codigo;

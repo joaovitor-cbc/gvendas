@@ -1,7 +1,7 @@
 package com.gvendas.gestaovendas.resources;
 
-import com.gvendas.gestaovendas.dtos.EnderecoInsertDTO;
-import com.gvendas.gestaovendas.dtos.EnderecoModelDTO;
+import com.gvendas.gestaovendas.dtos.endereco.EnderecoRequestDTO;
+import com.gvendas.gestaovendas.dtos.endereco.EnderecoResponseDTO;
 import com.gvendas.gestaovendas.services.EnderecoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +20,9 @@ public class EnderecoResource {
     private EnderecoService service;
 
     @PostMapping("/{codigo}")
-    public ResponseEntity<EnderecoModelDTO> salvarEndereco(@PathVariable("codigo") Long codigo,
-                                                           @Valid @RequestBody EnderecoInsertDTO enderecoInsertDTO) throws SQLIntegrityConstraintViolationException {
-        EnderecoModelDTO enderecoModelDTO = service.salvarEndereco(enderecoInsertDTO, codigo);
+    public ResponseEntity<EnderecoResponseDTO> salvarEndereco(@PathVariable("codigo") Long codigo,
+                                                              @Valid @RequestBody EnderecoRequestDTO enderecoInsertDTO) throws SQLIntegrityConstraintViolationException {
+        EnderecoResponseDTO enderecoModelDTO = service.salvarEndereco(enderecoInsertDTO, codigo);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
@@ -32,7 +32,7 @@ public class EnderecoResource {
     }
 
     @DeleteMapping("/{codigo}")
-    public ResponseEntity<Void> ApagarEndereco(@PathVariable("codigo") Long codigo, @RequestBody EnderecoModelDTO enderecoModelDTO) {
+    public ResponseEntity<Void> ApagarEndereco(@PathVariable("codigo") Long codigo, @RequestBody EnderecoResponseDTO enderecoModelDTO) {
         service.apagarEndereco(enderecoModelDTO, codigo);
         return ResponseEntity.noContent().build();
     }

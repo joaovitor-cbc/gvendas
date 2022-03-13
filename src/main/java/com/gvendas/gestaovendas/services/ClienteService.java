@@ -1,7 +1,7 @@
 package com.gvendas.gestaovendas.services;
 
-import com.gvendas.gestaovendas.dtos.ClienteInsertDTO;
-import com.gvendas.gestaovendas.dtos.ClienteModelDTO;
+import com.gvendas.gestaovendas.dtos.cliente.ClienteRequestDTO;
+import com.gvendas.gestaovendas.dtos.cliente.ClienteResponseDTO;
 import com.gvendas.gestaovendas.models.Cliente;
 import com.gvendas.gestaovendas.repositories.ClienteRepository;
 import com.gvendas.gestaovendas.services.exception.ClienteNaoEncontradoException;
@@ -35,7 +35,7 @@ public class ClienteService {
             throw new SQLIntegrityConstraintViolationException("Já existe um cliente cadastrato com esse numero de telefone");
     }
 
-    public ClienteModelDTO salvarCliente(ClienteInsertDTO clienteInsertDTO) throws SQLIntegrityConstraintViolationException {
+    public ClienteResponseDTO salvarCliente(ClienteRequestDTO clienteInsertDTO) throws SQLIntegrityConstraintViolationException {
         telefoneJaCadastrado(clienteInsertDTO.getTelefone());
         Cliente cliente = clienteInsertDtoToEntity(clienteInsertDTO);
         cliente.setAtivo(true);
@@ -43,14 +43,14 @@ public class ClienteService {
 
     }
 
-    public ClienteModelDTO atualizar(ClienteInsertDTO clienteInsertDTO, Long codigo) throws SQLIntegrityConstraintViolationException {
+    public ClienteResponseDTO atualizar(ClienteRequestDTO clienteInsertDTO, Long codigo) throws SQLIntegrityConstraintViolationException {
         Cliente cliente = buscarPorCodigo(codigo);
         validarAtualizacao(clienteInsertDTO, cliente);
         BeanUtils.copyProperties(clienteInsertDTO, cliente);
         return entityToClienteModelDto(repository.save(cliente));
     }
 
-    public void validarAtualizacao(ClienteInsertDTO clienteInsertDTO, Cliente cliente) throws SQLIntegrityConstraintViolationException {
+    public void validarAtualizacao(ClienteRequestDTO clienteInsertDTO, Cliente cliente) throws SQLIntegrityConstraintViolationException {
         if(cliente.getAtivo().equals(false))
             throw new IllegalArgumentException("Cliente com perfil desativado");
 
@@ -58,12 +58,12 @@ public class ClienteService {
             telefoneJaCadastrado(clienteInsertDTO.getTelefone());
     }
 
-    private Cliente clienteInsertDtoToEntity(ClienteInsertDTO clienteInsertDTO) {
+    private Cliente clienteInsertDtoToEntity(ClienteRequestDTO clienteInsertDTO) {
         return modelMapper.map(clienteInsertDTO, Cliente.class);
     }
 
-    private ClienteModelDTO entityToClienteModelDto(Cliente cliente) {
-        return modelMapper.map(cliente, ClienteModelDTO.class);
+    private ClienteResponseDTO entityToClienteModelDto(Cliente cliente) {
+        return modelMapper.map(cliente, ClienteResponseDTO.class);
     }
 
     public void apagarCliente(Long codigo) {

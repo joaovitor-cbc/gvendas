@@ -1,7 +1,7 @@
 package com.gvendas.gestaovendas.services;
 
-import com.gvendas.gestaovendas.dtos.ProdutoInsertDTO;
-import com.gvendas.gestaovendas.dtos.ProdutoModelDTO;
+import com.gvendas.gestaovendas.dtos.produto.ProdutoRequestDTO;
+import com.gvendas.gestaovendas.dtos.produto.ProdutoResponseDTO;
 import com.gvendas.gestaovendas.models.Categoria;
 import com.gvendas.gestaovendas.models.Produto;
 import com.gvendas.gestaovendas.repositories.ProdutoRepository;
@@ -27,17 +27,17 @@ public class ProdutoService {
     @Autowired
     private CategoriaService categoriaService;
 
-    public ProdutoModelDTO buscarPorCodigoModelProduto(Long codigo) {
+    public ProdutoResponseDTO buscarPorCodigoModelProduto(Long codigo) {
         Produto produto = repo.findById(codigo)
                 .orElseThrow(() -> new ProdutoNaoEncontradoException("Produto com codigo: " + codigo + " não existe."));
         return entidadeParaDtoModel(produto);
     }
 
-    public List<ProdutoModelDTO> listaProduto() {
+    public List<ProdutoResponseDTO> listaProduto() {
         return listaEntidadeParaListaDtoModel(repo.findAll());
     }
 
-    public ProdutoModelDTO salvarProduto(ProdutoInsertDTO produtoInsertDTO) {
+    public ProdutoResponseDTO salvarProduto(ProdutoRequestDTO produtoInsertDTO) {
         Produto produto = dtoInsertParaEntidade(produtoInsertDTO);
         Categoria categoria = categoriaService.buscarPorCodigoEntidade(produtoInsertDTO.getCategoriaCodigo());
         produto.setCategoria(categoria);
@@ -52,7 +52,7 @@ public class ProdutoService {
                     + produto.getCategoria().getNome());
     }
 
-    public void atualizarProduto(Long codigo, ProdutoInsertDTO produtoInsertDTO) {
+    public void atualizarProduto(Long codigo, ProdutoRequestDTO produtoInsertDTO) {
         Produto produtoSalvo = dtoModelParaEntidade(buscarPorCodigoModelProduto(codigo));
         Categoria categoria = categoriaService.buscarPorCodigoEntidade(produtoInsertDTO.getCategoriaCodigo());
         Produto produto = dtoInsertParaEntidade(produtoInsertDTO);
@@ -67,19 +67,19 @@ public class ProdutoService {
         repo.delete(produto);
     }
 
-    private Produto dtoInsertParaEntidade(ProdutoInsertDTO dtoInsert) {
+    private Produto dtoInsertParaEntidade(ProdutoRequestDTO dtoInsert) {
         return modelMapper.map(dtoInsert, Produto.class);
     }
 
-    public Produto dtoModelParaEntidade(ProdutoModelDTO produtoModelDTO) {
+    public Produto dtoModelParaEntidade(ProdutoResponseDTO produtoModelDTO) {
         return modelMapper.map(produtoModelDTO, Produto.class);
     }
 
-    private ProdutoModelDTO entidadeParaDtoModel(Produto entidade) {
-        return modelMapper.map(entidade, ProdutoModelDTO.class);
+    private ProdutoResponseDTO entidadeParaDtoModel(Produto entidade) {
+        return modelMapper.map(entidade, ProdutoResponseDTO.class);
     }
 
-    private List<ProdutoModelDTO> listaEntidadeParaListaDtoModel(List<Produto> listaCategoria) {
+    private List<ProdutoResponseDTO> listaEntidadeParaListaDtoModel(List<Produto> listaCategoria) {
         return listaCategoria.stream().map(this::entidadeParaDtoModel).toList();
     }
 }

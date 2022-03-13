@@ -1,7 +1,7 @@
 package com.gvendas.gestaovendas.resources;
 
-import com.gvendas.gestaovendas.dtos.ClienteInsertDTO;
-import com.gvendas.gestaovendas.dtos.ClienteModelDTO;
+import com.gvendas.gestaovendas.dtos.cliente.ClienteRequestDTO;
+import com.gvendas.gestaovendas.dtos.cliente.ClienteResponseDTO;
 import com.gvendas.gestaovendas.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +20,8 @@ public class ClienteResource {
     private ClienteService service;
 
     @PostMapping
-    public ResponseEntity<ClienteModelDTO> salvarCliente(@Valid @RequestBody ClienteInsertDTO clienteInsertDTO) throws SQLIntegrityConstraintViolationException {
-        ClienteModelDTO clienteModelDTO = service.salvarCliente(clienteInsertDTO);
+    public ResponseEntity<ClienteResponseDTO> salvarCliente(@Valid @RequestBody ClienteRequestDTO clienteInsertDTO) throws SQLIntegrityConstraintViolationException {
+        ClienteResponseDTO clienteModelDTO = service.salvarCliente(clienteInsertDTO);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
@@ -31,7 +31,7 @@ public class ClienteResource {
     }
 
     @PutMapping("/{codigo}")
-    public ResponseEntity<Void> atualizarCliente(@Valid @RequestBody ClienteInsertDTO clienteInsertDTO, @PathVariable("codigo") Long codigo) throws SQLIntegrityConstraintViolationException {
+    public ResponseEntity<Void> atualizarCliente(@Valid @RequestBody ClienteRequestDTO clienteInsertDTO, @PathVariable("codigo") Long codigo) throws SQLIntegrityConstraintViolationException {
         service.atualizar(clienteInsertDTO, codigo);
         return ResponseEntity.noContent().build();
     }

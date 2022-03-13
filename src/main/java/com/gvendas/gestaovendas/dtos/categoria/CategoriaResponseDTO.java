@@ -1,18 +1,18 @@
-package com.gvendas.gestaovendas.dtos;
+package com.gvendas.gestaovendas.dtos.categoria;
 
 import java.io.Serializable;
 
-public class CategoriaModelDTO implements Serializable {
+public class CategoriaResponseDTO implements Serializable {
 
     private Long codigo;
     private String nome;
 
-    public CategoriaModelDTO(Long codigo, String nome) {
+    public CategoriaResponseDTO(Long codigo, String nome) {
         this.codigo = codigo;
         this.nome = nome;
     }
 
-    public CategoriaModelDTO() {
+    public CategoriaResponseDTO() {
     }
 
     public Long getCodigo() {
