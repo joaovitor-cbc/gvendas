@@ -8,10 +8,10 @@ CREATE TABLE endereco (
     cep VARCHAR(30),
     cidade VARCHAR(30),
     estado VARCHAR(30)
-)ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
 
 alter table endereco add constraint fk_cliente_codigo
-    foreign key (cliente_codigo) references cliente (codigo);
+foreign key (cliente_codigo) references cliente (codigo);
 
 INSERT INTO endereco (cliente_codigo, logradouro, numero, complemento, bairro, cep, cidade, estado) values (1, 'Rua do Abacaxi', '10', null, 'Brasil', '38.400-122', 'Uberlândia', 'MG');
 INSERT INTO endereco (cliente_codigo, logradouro, numero, complemento, bairro, cep, cidade, estado) values (2, 'Rua do Sabiá', '110', 'Apto 101', 'Colina', '11.400-122', 'Ribeirão Preto', 'SP');
