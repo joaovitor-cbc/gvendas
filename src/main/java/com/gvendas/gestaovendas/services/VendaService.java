@@ -8,13 +8,16 @@ import com.gvendas.gestaovendas.models.ItemVenda;
 import com.gvendas.gestaovendas.models.Venda;
 import com.gvendas.gestaovendas.repositories.ItemVendaRepository;
 import com.gvendas.gestaovendas.repositories.VendaRepository;
+import com.gvendas.gestaovendas.services.exception.VendaNaoEncontradaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
-public class VendaServico {
+public class VendaService {
 
     @Autowired
     private VendaRepository repository;
@@ -30,6 +33,18 @@ public class VendaServico {
         List<VendaReponseDTO> vendasDTO = repository.findByClienteCodigo(cliente.getCodigo())
                 .stream().map(this::criandoVendaResponseDTO).toList();
         return new ClienteVendaResponseDTO(cliente.getNome(), vendasDTO);
+    }
+
+    public ClienteVendaResponseDTO listarVendaPorCodigo(Long codigo){
+        Venda venda = validarVendaExiste(codigo);
+        return new ClienteVendaResponseDTO(venda.getCliente().getNome(), Arrays.asList(criandoVendaResponseDTO(venda)));
+    }
+
+    private Venda validarVendaExiste(Long codigo) {
+        Optional<Venda> vendaOpt = repository.findById(codigo);
+        if (vendaOpt.isEmpty())
+            throw new VendaNaoEncontradaException(String.format("Venda de codigo %s não encontrada", codigo));
+        return vendaOpt.get();
     }
 
     private Cliente validarClienteExiste(Long codigoCliente) {

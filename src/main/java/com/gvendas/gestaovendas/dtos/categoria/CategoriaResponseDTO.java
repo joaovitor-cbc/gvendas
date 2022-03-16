@@ -12,8 +12,7 @@ public class CategoriaResponseDTO implements Serializable {
         this.nome = nome;
     }
 
-    public CategoriaResponseDTO() {
-    }
+    public CategoriaResponseDTO() {}
 
     public Long getCodigo() {
         return codigo;
