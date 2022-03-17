@@ -10,6 +10,7 @@ import com.gvendas.gestaovendas.services.exception.ProdutoNaoEncontradoException
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,7 +30,7 @@ public class ProdutoService {
 
     public ProdutoResponseDTO buscarPorCodigoModelProduto(Long codigo) {
         Produto produto = repo.findById(codigo)
-                .orElseThrow(() -> new ProdutoNaoEncontradoException("Produto com codigo: " + codigo + " não existe."));
+                .orElseThrow(() -> new ProdutoNaoEncontradoException(String.format("Produto com codigo %s não encontrado",codigo)));
         return entidadeParaDtoModel(produto);
     }
 
@@ -43,6 +44,11 @@ public class ProdutoService {
         produto.setCategoria(categoria);
         produtoEhDuplicado(produto);
         return entidadeParaDtoModel(repo.save(produto));
+    }
+
+    protected Produto validarProdutoExiste(Long codigo){
+        return repo.findById(codigo)
+                .orElseThrow(() -> new EmptyResultDataAccessException(String.format("Produto com codigo %s não encontrado",codigo), 1));
     }
 
     public void produtoEhDuplicado(Produto produto) {

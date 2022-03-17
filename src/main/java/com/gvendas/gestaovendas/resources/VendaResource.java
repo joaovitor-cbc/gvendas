@@ -1,15 +1,16 @@
 package com.gvendas.gestaovendas.resources;
 
 import com.gvendas.gestaovendas.dtos.venda.ClienteVendaResponseDTO;
+import com.gvendas.gestaovendas.dtos.venda.VendaRequestDTO;
 import com.gvendas.gestaovendas.services.VendaService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Api(tags = "Venda")
 @RestController
@@ -31,5 +32,14 @@ public class VendaResource {
     @GetMapping(value = "/{codigo}")
     public ResponseEntity<ClienteVendaResponseDTO> listarVendaPorCodigo(@PathVariable Long codigo){
         return ResponseEntity.ok().body(service.listarVendaPorCodigo(codigo));
+    }
+
+    @ApiOperation(value = "Salvar venda", response = ClienteVendaResponseDTO.class, httpMethod = "POST",
+            produces = "json", protocols = "http", nickname = "salvarVenda")
+    @PostMapping(value = "/{clienteCodigo}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<ClienteVendaResponseDTO> salvarVenda(@PathVariable Long clienteCodigo,
+                                                               @Valid @RequestBody VendaRequestDTO vendaDto){
+        return ResponseEntity.ok().body(service.salvar(clienteCodigo, vendaDto));
     }
 }

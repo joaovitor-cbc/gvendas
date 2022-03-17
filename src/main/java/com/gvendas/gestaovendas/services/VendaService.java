@@ -1,10 +1,9 @@
 package com.gvendas.gestaovendas.services;
 
-import com.gvendas.gestaovendas.dtos.venda.ClienteVendaResponseDTO;
-import com.gvendas.gestaovendas.dtos.venda.ItemVendaReponseDTO;
-import com.gvendas.gestaovendas.dtos.venda.VendaReponseDTO;
+import com.gvendas.gestaovendas.dtos.venda.*;
 import com.gvendas.gestaovendas.models.Cliente;
 import com.gvendas.gestaovendas.models.ItemVenda;
+import com.gvendas.gestaovendas.models.Produto;
 import com.gvendas.gestaovendas.models.Venda;
 import com.gvendas.gestaovendas.repositories.ItemVendaRepository;
 import com.gvendas.gestaovendas.repositories.VendaRepository;
@@ -26,6 +25,9 @@ public class VendaService {
     private ClienteService clienteService;
 
     @Autowired
+    private ProdutoService produtoService;
+
+    @Autowired
     private ItemVendaRepository itemVendaRepository;
 
     public ClienteVendaResponseDTO listarVendaPorCliente(Long codigoCliente){
@@ -37,7 +39,30 @@ public class VendaService {
 
     public ClienteVendaResponseDTO listarVendaPorCodigo(Long codigo){
         Venda venda = validarVendaExiste(codigo);
+        return clienteVendaResponseDTOBuilder(venda);
+    }
+
+    public ClienteVendaResponseDTO salvar(Long codigoCliente, VendaRequestDTO vendaDto){
+        Cliente cliente = validarClienteExiste(codigoCliente);
+        validarProdutoExiste(vendaDto.getItensVendaDto());
+        Venda venda = salvarVenda(cliente, vendaDto);
+        return clienteVendaResponseDTOBuilder(venda);
+    }
+
+    private Venda salvarVenda(Cliente cliente, VendaRequestDTO vendaDto){
+        Venda venda = repository.save(new Venda(null, vendaDto.getData(), cliente));
+        List<ItemVenda> itemVendas = vendaDto.getItensVendaDto().stream()
+                .map(obj -> criandoItemVenda(obj, venda)).toList();
+        itemVendaRepository.saveAll(itemVendas);
+        return venda;
+    }
+
+    private ClienteVendaResponseDTO clienteVendaResponseDTOBuilder(Venda venda) {
         return new ClienteVendaResponseDTO(venda.getCliente().getNome(), Arrays.asList(criandoVendaResponseDTO(venda)));
+    }
+
+    private void validarProdutoExiste(List<ItemVendaRequestDTO> itensVendaDto) {
+        itensVendaDto.forEach(prod -> produtoService.validarProdutoExiste(prod.getCodigoProduto()));
     }
 
     private Venda validarVendaExiste(Long codigo) {
@@ -60,5 +85,10 @@ public class VendaService {
     private ItemVendaReponseDTO criandoItemVendaReponseDTO(ItemVenda itemVenda){
         return new ItemVendaReponseDTO(itemVenda.getCodigo(), itemVenda.getQuantidade(),
                 itemVenda.getPrecoVendido(), itemVenda.getProduto().getCodigo(), itemVenda.getProduto().getDescricao());
+    }
+
+    private ItemVenda criandoItemVenda(ItemVendaRequestDTO itemVendaDto, Venda venda){
+        return new ItemVenda(null, new Produto(itemVendaDto.getCodigoProduto()), venda,
+                itemVendaDto.getQuantidade(), itemVendaDto.getPrecoVendido());
     }
 }
