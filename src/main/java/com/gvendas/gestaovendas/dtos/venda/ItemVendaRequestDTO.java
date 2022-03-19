@@ -5,7 +5,6 @@ import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
 
 @ApiModel("Itens da venda requisição DTO")
 public class ItemVendaRequestDTO {
@@ -18,10 +17,6 @@ public class ItemVendaRequestDTO {
     @NotNull(message = "Quantidade do produto não pode ser nulo")
     @Min(message = "Quantidade minima é 1", value = 1L)
     private Integer quantidade;
-
-    @NotNull(message = "Preco do produto não pode ser nulo")
-    @ApiModelProperty(value = "Preço do item da venda")
-    private BigDecimal precoVendido;
 
     public Long getCodigoProduto() {
         return codigoProduto;
@@ -37,13 +32,5 @@ public class ItemVendaRequestDTO {
 
     public void setQuantidade(Integer quantidade) {
         this.quantidade = quantidade;
-    }
-
-    public BigDecimal getPrecoVendido() {
-        return precoVendido;
-    }
-
-    public void setPrecoVendido(BigDecimal precoVendido) {
-        this.precoVendido = precoVendido;
     }
 }

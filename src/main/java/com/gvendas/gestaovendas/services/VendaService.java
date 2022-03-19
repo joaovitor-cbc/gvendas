@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -59,6 +60,26 @@ public class VendaService {
                 .map(obj -> criandoItemVenda(obj, venda)).toList();
         itemVendaRepository.saveAll(itemVendas);
         return venda;
+    }
+
+    private Venda atualizarVenda(Long codigoVenda, Cliente cliente, VendaRequestDTO vendaDto){
+        Venda venda = repository.save(new Venda(codigoVenda, vendaDto.getData(), cliente));
+        List<ItemVenda> itemVendas = vendaDto.getItensVendaDto().stream()
+                .map(obj -> criandoItemVenda(obj, venda)).toList();
+        itemVendaRepository.saveAll(itemVendas);
+        return venda;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = {RuntimeException.class, Exception.class})
+    public ClienteVendaResponseDTO atualizar(Long codigoVenda, Long codigoCliente, VendaRequestDTO vendaDto){
+        Venda venda = validarVendaExiste(codigoVenda);
+        Cliente cliente = validarClienteExiste(codigoCliente);
+        List<ItemVenda> itensVenda = itemVendaRepository.findByVendaCodigo(venda.getCodigo());
+        devolverProdutoEstoque(itensVenda);
+        validarProdutoExiste(vendaDto.getItensVendaDto());
+        itemVendaRepository.deleteAll(itensVenda);
+        Venda vendaAtualizada = atualizarVenda(venda.getCodigo(), cliente, vendaDto);
+        return clienteVendaResponseDTOBuilder(vendaAtualizada);
     }
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = {RuntimeException.class, Exception.class})
@@ -111,7 +132,19 @@ public class VendaService {
     private VendaReponseDTO criandoVendaResponseDTO(Venda venda){
         List<ItemVendaReponseDTO> itensVendaDTO = itemVendaRepository.findByVendaCodigo(venda.getCodigo())
                 .stream().map(this::criandoItemVendaReponseDTO).toList();
-        return new VendaReponseDTO(venda.getCodigo(), venda.getData(), itensVendaDTO);
+        VendaReponseDTO vendaReponseDTO = new VendaReponseDTO(venda.getCodigo(), venda.getData(), itensVendaDTO);
+        vendaReponseDTO.setValorTotal(new BigDecimal(0));
+        itensVendaDTO.stream().forEach(item -> {
+            int cc = 0;
+            while (item.getQuantidade() > cc) {
+                vendaReponseDTO.addValor(item.getPrecoVendido());
+                cc++;
+            }
+        });
+        return vendaReponseDTO;
+    }
+
+    private void valorTotal(){
     }
 
     private ItemVendaReponseDTO criandoItemVendaReponseDTO(ItemVenda itemVenda){
@@ -120,7 +153,8 @@ public class VendaService {
     }
 
     private ItemVenda criandoItemVenda(ItemVendaRequestDTO itemVendaDto, Venda venda){
-        return new ItemVenda(null, new Produto(itemVendaDto.getCodigoProduto()), venda,
-                itemVendaDto.getQuantidade(), itemVendaDto.getPrecoVendido());
+        Produto produto = produtoService.validarProdutoExiste(itemVendaDto.getCodigoProduto());
+        return new ItemVenda(null, new Produto(produto.getCodigo()), venda,
+                itemVendaDto.getQuantidade(), produto.getPrecoVenda());
     }
 }

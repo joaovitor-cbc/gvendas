@@ -43,6 +43,15 @@ public class VendaResource {
         return ResponseEntity.ok().body(service.salvar(clienteCodigo, vendaDto));
     }
 
+    @ApiOperation(value = "Atualizar venda", response = ClienteVendaResponseDTO.class, httpMethod = "PUT",
+            produces = "json", protocols = "http", nickname = "atualizarVenda")
+    @PutMapping(value = "/{codigoVenda}/{codigoCliente}")
+    public ResponseEntity<ClienteVendaResponseDTO> atualizarVenda(@PathVariable Long codigoVenda,
+                                                                  @PathVariable Long codigoCliente,
+                                                                  @Valid @RequestBody VendaRequestDTO dto){
+        return ResponseEntity.ok(service.atualizar(codigoVenda, codigoCliente, dto));
+    }
+
     @ApiOperation(value = "Deletar venda", response = Void.class, httpMethod = "DELETE",
             produces = "json", protocols = "http", nickname = "deletarVenda")
     @DeleteMapping(value = "/{codigo}")

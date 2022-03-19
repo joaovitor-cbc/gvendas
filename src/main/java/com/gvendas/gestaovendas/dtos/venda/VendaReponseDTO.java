@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -18,6 +19,9 @@ public class VendaReponseDTO implements Serializable {
 
     @ApiModelProperty(value = "Lista de itens da venda")
     private List<ItemVendaReponseDTO> itemVendaReponseDTOS;
+
+    @ApiModelProperty(value = "Valor total da venda")
+    private BigDecimal valorTotal;
 
     public VendaReponseDTO() {}
 
@@ -45,6 +49,18 @@ public class VendaReponseDTO implements Serializable {
 
     public List<ItemVendaReponseDTO> getItemVendaReponseDTOS() {
         return itemVendaReponseDTOS;
+    }
+
+    public BigDecimal getValorTotal() {
+        return valorTotal;
+    }
+
+    public void setValorTotal(BigDecimal valorTotal) {
+        this.valorTotal = valorTotal;
+    }
+
+    public void addValor(BigDecimal valorTotal) {
+        this.valorTotal = this.valorTotal.add(valorTotal);
     }
 
     public void setItemVendaReponseDTOS(List<ItemVendaReponseDTO> itemVendaReponseDTOS) {
