@@ -68,6 +68,12 @@ public class ProdutoService {
         repo.save(produtoSalvo);
     }
 
+    protected Produto atualizarEstoqueProduto(Produto produto) {
+        Produto produtoSalvo = validarProdutoExiste(produto.getCodigo());
+        BeanUtils.copyProperties(produto, produtoSalvo, "codigo");
+        return repo.save(produtoSalvo);
+    }
+
     public void apagarProduto(Long codigo) {
         Produto produto = dtoModelParaEntidade(buscarPorCodigoModelProduto(codigo));
         repo.delete(produto);
