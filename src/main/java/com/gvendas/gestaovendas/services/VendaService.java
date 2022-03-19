@@ -61,6 +61,23 @@ public class VendaService {
         return venda;
     }
 
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = {RuntimeException.class, Exception.class})
+    public void deletarVenda(Long codigo){
+        Venda venda = validarVendaExiste(codigo);
+        List<ItemVenda> itensVendas = itemVendaRepository.findByVendaCodigo(venda.getCodigo());
+        devolverProdutoEstoque(itensVendas);
+        itemVendaRepository.deleteAll(itensVendas);
+        repository.delete(venda);
+    }
+
+    private void devolverProdutoEstoque(List<ItemVenda> itensVendas){
+        itensVendas.forEach(item -> {
+            Produto produto = produtoService.validarProdutoExiste(item.getProduto().getCodigo());
+            produto.setQuantidade(produto.getQuantidade() + item.getQuantidade());
+            produtoService.atualizarEstoqueProduto(produto);
+        });
+    }
+
     private ClienteVendaResponseDTO clienteVendaResponseDTOBuilder(Venda venda) {
         return new ClienteVendaResponseDTO(venda.getCliente().getNome(), Arrays.asList(criandoVendaResponseDTO(venda)));
     }

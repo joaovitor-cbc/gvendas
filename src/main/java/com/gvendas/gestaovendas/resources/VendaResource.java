@@ -42,4 +42,12 @@ public class VendaResource {
                                                                @Valid @RequestBody VendaRequestDTO vendaDto){
         return ResponseEntity.ok().body(service.salvar(clienteCodigo, vendaDto));
     }
+
+    @ApiOperation(value = "Deletar venda", response = Void.class, httpMethod = "DELETE",
+            produces = "json", protocols = "http", nickname = "deletarVenda")
+    @DeleteMapping(value = "/{codigo}")
+    public ResponseEntity<Void> deletarVenda(@PathVariable Long codigo){
+        service.deletarVenda(codigo);
+        return ResponseEntity.noContent().build();
+    }
 }
