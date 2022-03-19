@@ -133,15 +133,19 @@ public class VendaService {
         List<ItemVendaReponseDTO> itensVendaDTO = itemVendaRepository.findByVendaCodigo(venda.getCodigo())
                 .stream().map(this::criandoItemVendaReponseDTO).toList();
         VendaReponseDTO vendaReponseDTO = new VendaReponseDTO(venda.getCodigo(), venda.getData(), itensVendaDTO);
+        calcularValorTotalVenda(itensVendaDTO, vendaReponseDTO);
+        return vendaReponseDTO;
+    }
+
+    private void calcularValorTotalVenda(List<ItemVendaReponseDTO> itensVendaDTO, VendaReponseDTO vendaReponseDTO){
         vendaReponseDTO.setValorTotal(new BigDecimal(0));
         itensVendaDTO.stream().forEach(item -> {
             int cc = 0;
             while (item.getQuantidade() > cc) {
-                vendaReponseDTO.addValor(item.getPrecoVendido());
+                vendaReponseDTO.addValorTotal(item.getPrecoVendido());
                 cc++;
             }
         });
-        return vendaReponseDTO;
     }
 
     private void valorTotal(){

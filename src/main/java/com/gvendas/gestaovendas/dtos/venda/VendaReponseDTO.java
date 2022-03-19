@@ -59,7 +59,7 @@ public class VendaReponseDTO implements Serializable {
         this.valorTotal = valorTotal;
     }
 
-    public void addValor(BigDecimal valorTotal) {
+    public void addValorTotal(BigDecimal valorTotal) {
         this.valorTotal = this.valorTotal.add(valorTotal);
     }
 
