@@ -25,7 +25,7 @@ public class ClienteService {
     public Cliente buscarPorCodigo(Long codigo) {
         Optional<Cliente> clienteOpt = repository.findById(codigo);
         if (clienteOpt.isEmpty())
-            throw new ClienteNaoEncontradoException("Cliente não encontrado");
+            throw new ClienteNaoEncontradoException(String.format("Cliente com codigo %s não encontrado", codigo));
         return clienteOpt.get();
     }
 

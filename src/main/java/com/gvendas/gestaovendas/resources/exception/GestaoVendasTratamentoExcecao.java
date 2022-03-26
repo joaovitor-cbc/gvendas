@@ -74,4 +74,18 @@ public class GestaoVendasTratamentoExcecao {
                 ex.getMessage(), request.getRequestURI());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erroPadrao);
     }
+
+    @ExceptionHandler(VendaNaoEncontradaException.class)
+    public ResponseEntity<ErroPadrao> vendaNaoEncontrada(VendaNaoEncontradaException ex, HttpServletRequest request) {
+        ErroPadrao erroPadrao = new ErroPadrao(formataDataHora(new Date()), HttpStatus.BAD_REQUEST.value(), "Não encontrado",
+                ex.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erroPadrao);
+    }
+
+    @ExceptionHandler(ProdutoSemEstoqueException.class)
+    public ResponseEntity<ErroPadrao> produtoSemEstoque(ProdutoSemEstoqueException ex, HttpServletRequest request) {
+        ErroPadrao erroPadrao = new ErroPadrao(formataDataHora(new Date()), HttpStatus.BAD_REQUEST.value(), "Não encontrado",
+                ex.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erroPadrao);
+    }
 }
