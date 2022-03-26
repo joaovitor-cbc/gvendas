@@ -148,9 +148,6 @@ public class VendaService {
         });
     }
 
-    private void valorTotal(){
-    }
-
     private ItemVendaReponseDTO criandoItemVendaReponseDTO(ItemVenda itemVenda){
         return new ItemVendaReponseDTO(itemVenda.getCodigo(), itemVenda.getQuantidade(),
                 itemVenda.getPrecoVendido(), itemVenda.getProduto().getCodigo(), itemVenda.getProduto().getDescricao());
