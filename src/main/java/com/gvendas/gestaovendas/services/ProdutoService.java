@@ -80,7 +80,7 @@ public class ProdutoService {
         repo.delete(produto);
     }
 
-    private Produto dtoInsertParaEntidade(ProdutoRequestDTO dtoInsert) {
+    public Produto dtoInsertParaEntidade(ProdutoRequestDTO dtoInsert) {
         return modelMapper.map(dtoInsert, Produto.class);
     }
 
@@ -88,11 +88,11 @@ public class ProdutoService {
         return modelMapper.map(produtoModelDTO, Produto.class);
     }
 
-    private ProdutoResponseDTO entidadeParaDtoModel(Produto entidade) {
+    public ProdutoResponseDTO entidadeParaDtoModel(Produto entidade) {
         return modelMapper.map(entidade, ProdutoResponseDTO.class);
     }
 
-    private List<ProdutoResponseDTO> listaEntidadeParaListaDtoModel(List<Produto> listaCategoria) {
+    public List<ProdutoResponseDTO> listaEntidadeParaListaDtoModel(List<Produto> listaCategoria) {
         return listaCategoria.stream().map(this::entidadeParaDtoModel).toList();
     }
 }

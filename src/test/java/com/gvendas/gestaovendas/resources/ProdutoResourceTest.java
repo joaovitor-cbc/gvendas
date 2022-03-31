@@ -31,7 +31,7 @@ public class ProdutoResourceTest {
 	}
 
 	@Test
-	public void deveRetornaSucesso_QuandoBuscarProdutoPorCodigo() {
+	void deveRetornaSucesso_QuandoBuscarProdutoPorCodigo() {
 		Mockito.when(this.produtoService.buscarPorCodigoModelProduto(1L))
 		.thenReturn(new ProdutoResponseDTO());
 		
@@ -42,7 +42,7 @@ public class ProdutoResourceTest {
 	}
 	
 	@Test
-	public void deveRetornaSucesso_QuandoListarProduto() {
+	void deveRetornaSucesso_QuandoListarProduto() {
 		Mockito.when(this.produtoService.listaProduto())
 		.thenReturn(Arrays.asList(new ProdutoResponseDTO(), new ProdutoResponseDTO()));
 		
@@ -53,7 +53,7 @@ public class ProdutoResourceTest {
 	}
 	
 	@Test
-	public void deveRetornaSemConteudo_QuandoDeletarProduto() {
+	void deveRetornaSemConteudo_QuandoDeletarProduto() {
 		Mockito.doNothing().when(this.produtoService).apagarProduto(1L);
 		
 		RestAssuredMockMvc.given()
