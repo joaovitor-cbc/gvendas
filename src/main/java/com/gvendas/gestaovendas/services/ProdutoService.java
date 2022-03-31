@@ -1,5 +1,14 @@
 package com.gvendas.gestaovendas.services;
 
+import java.util.List;
+import java.util.Optional;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.stereotype.Service;
+
 import com.gvendas.gestaovendas.dtos.produto.ProdutoRequestDTO;
 import com.gvendas.gestaovendas.dtos.produto.ProdutoResponseDTO;
 import com.gvendas.gestaovendas.models.Categoria;
@@ -7,14 +16,6 @@ import com.gvendas.gestaovendas.models.Produto;
 import com.gvendas.gestaovendas.repositories.ProdutoRepository;
 import com.gvendas.gestaovendas.services.exception.ProdutoDuplicadoException;
 import com.gvendas.gestaovendas.services.exception.ProdutoNaoEncontradoException;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProdutoService {
